@@ -1,0 +1,121 @@
+{
+  "title": "Three Cups (ሦስት ስኒ)",
+  "logline": "Through the three rounds of one coffee ceremony, a grandmother's life moves from a crowded village home to a quiet house, and her cup keeps calling her scattered family back.",
+  "language": "am",
+  "narration_voice": "Kore",
+  "style": {
+    "prompt": "warm hand-painted gouache illustration, soft film grain, amber firelight and morning light, muted earth tones of terracotta, ochre and deep green, gentle storybook feel, Ethiopian highland home",
+    "negative": "photorealistic, text, letters, watermark, extra fingers, distorted face"
+  },
+  "characters": [
+    {
+      "id": "grandmother",
+      "description": "Ethiopian woman with warm brown skin, oval face, kind deep-set eyes, small silver cross necklace, white cotton netela shawl with a thin green, yellow and red woven border (tilet). Age is given per shot: young (about 20, black braided hair), middle (about 40, hair under a headscarf), old (about 75, silver braids)."
+    },
+    {
+      "id": "children",
+      "description": "Two Ethiopian children, a girl about 8 in a simple yellow dress and a boy about 6 in a white shirt, playful and curious."
+    }
+  ],
+  "music": {
+    "prompt": "slow, warm Ethiopian instrumental, krar and masinko with soft kebero, tizita mode, nostalgic and tender, gentle build then calm resolution",
+    "bpm": 72,
+    "duck_db": -14
+  },
+  "shots": [
+    {
+      "id": "s01", "duration_s": 7,
+      "reason": "Opens on the ritual itself so the audience instantly recognises the coffee ceremony and feels at home.",
+      "image_prompt": "close-up of green coffee beans roasting in a black clay pan over glowing charcoal, thin smoke rising, grass-strewn floor at the edge of frame",
+      "motion_prompt": "slow push-in, smoke curling upward, embers flickering",
+      "characters": [],
+      "narration": { "text": "በቤታችን ውስጥ ሁሉም ታሪክ የሚጀምረው በቡና ነው።", "english": "In our home, every story begins with coffee." },
+      "music_cue": "intro"
+    },
+    {
+      "id": "s02", "duration_s": 7,
+      "reason": "Introduces the grandmother young, so the later shots of her ageing carry weight.",
+      "image_prompt": "young grandmother, about 20, black braided hair, kneeling by a charcoal stove in a round village house with mud walls, shaking a clay pan of coffee beans, morning light through the doorway",
+      "motion_prompt": "gentle side pan, her hands shaking the pan, light shifting",
+      "characters": ["grandmother"],
+      "narration": { "text": "አያቴ ወጣት ሳለች፣ በመንደሯ ቡናን በእሳት ላይ ትቆላ ነበር።", "english": "When my grandmother was young, she roasted coffee over the fire in her village." },
+      "music_cue": "intro"
+    },
+    {
+      "id": "s03", "duration_s": 8,
+      "reason": "Shows coffee as what gathers people, and names the first cup so the three-cup structure is clear.",
+      "image_prompt": "young grandmother pouring coffee from a black clay jebena into small white cups on a wooden tray, neighbours sitting around her on low stools, smoke from frankincense",
+      "motion_prompt": "slow pull-back revealing the neighbours, coffee pouring in a thin stream",
+      "characters": ["grandmother"],
+      "narration": { "text": "የቡናው ሽታ ጎረቤቶችን ሁሉ ይጠራ ነበር። ይህ አቦል ነው፣ የመጀመሪያው ስኒ።", "english": "The smell of coffee called all the neighbours. This is abol, the first cup." },
+      "music_cue": "build"
+    },
+    {
+      "id": "s04", "duration_s": 7,
+      "reason": "Moves time forward; same jebena, now with her own children, linking generations through one object.",
+      "image_prompt": "middle-aged grandmother, about 40, hair under a headscarf, sitting by the same black jebena while two children lean on her shoulders, warm evening light",
+      "motion_prompt": "slow push-in, children shifting and smiling",
+      "characters": ["grandmother", "children"],
+      "narration": { "text": "ከዚያም ልጆቿ መጡ። በዚያው ጀበና ዙሪያ አደጉ።", "english": "Then her children came. They grew up around the same jebena." },
+      "music_cue": "warm"
+    },
+    {
+      "id": "s05", "duration_s": 8,
+      "reason": "The second cup is the joyful peak; the audience should smile before the loss that follows.",
+      "image_prompt": "children laughing and eating popcorn from a woven basket, middle-aged grandmother pouring the second round of coffee, frankincense smoke, lively warm home",
+      "motion_prompt": "playful handheld feel, popcorn tossed, laughter",
+      "characters": ["grandmother", "children"],
+      "narration": { "text": "ቶና፣ ሁለተኛው ስኒ፣ የሳቅና የወሬ ጊዜ ነበር።", "english": "Tona, the second cup, was a time of laughter and stories." },
+      "music_cue": "warm"
+    },
+    {
+      "id": "s06", "duration_s": 7,
+      "reason": "The turning point: the family scatters, the feeling the diaspora audience knows well.",
+      "image_prompt": "grandmother, about 50, standing at the gate of her house waving goodbye as a minibus drives away down a dusty road, long shadows at sunset",
+      "motion_prompt": "slow pull-back, minibus shrinking into the distance, dust drifting",
+      "characters": ["grandmother"],
+      "narration": { "text": "አንድ ቀን ልጆቿ ሩቅ ሄዱ። ቤቱ ጸጥ አለ።", "english": "One day her children went far away. The house fell silent." },
+      "music_cue": "quiet"
+    },
+    {
+      "id": "s07", "duration_s": 7,
+      "reason": "Shows her persistence; the ritual continues even alone, which sets up the ending.",
+      "image_prompt": "old grandmother, about 75, silver braids, alone by the charcoal stove, roasting beans, one single white cup on the tray, soft blue dawn light",
+      "motion_prompt": "very slow push-in, smoke rising, stillness",
+      "characters": ["grandmother"],
+      "narration": { "text": "እሷ ግን ቡና ማፍላቷን አላቆመችም።", "english": "But she never stopped making coffee." },
+      "music_cue": "quiet"
+    },
+    {
+      "id": "s08", "duration_s": 8,
+      "reason": "Bridges old and new: technology brings the family back into the ritual, the hopeful turn.",
+      "image_prompt": "old grandmother smiling at a smartphone propped against the jebena, screen glowing with faces of grandchildren, coffee cups on the tray, warm light returning",
+      "motion_prompt": "gentle orbit around her, screen light flickering on her face",
+      "characters": ["grandmother"],
+      "narration": { "text": "ዛሬ የልጅ ልጆቿ በስልክ ይቀላቀሏታል።", "english": "Today her grandchildren join her by phone." },
+      "music_cue": "swell"
+    },
+    {
+      "id": "s09", "duration_s": 8,
+      "reason": "The third cup, the blessing, is the emotional climax and completes the three-cup structure.",
+      "image_prompt": "old grandmother raising her hands in blessing over the third cup of coffee, eyes closed, frankincense smoke glowing in golden light",
+      "motion_prompt": "slow push-in on her face and hands, smoke drifting upward",
+      "characters": ["grandmother"],
+      "narration": { "text": "በረካ፣ ሦስተኛው ስኒ፣ የምርቃት ስኒ ነው።", "english": "Bereka, the third cup, is the cup of blessing." },
+      "music_cue": "swell"
+    },
+    {
+      "id": "s10", "duration_s": 9,
+      "reason": "Ends on the motif, a full cup waiting, so viewers leave wanting to call their own grandmother.",
+      "image_prompt": "close-up of one full white coffee cup on a wooden tray beside the black jebena, thin steam rising, empty low stool beside it, warm golden light",
+      "motion_prompt": "static frame, steam rising slowly, light gently fading",
+      "characters": [],
+      "narration": { "text": "ሩቅ ብንሆንም፣ ስኒዋ ሁልጊዜ ይጠብቀናል።", "english": "Even when we are far away, her cup is always waiting for us." },
+      "music_cue": "resolve"
+    }
+  ],
+  "end_card": {
+    "text": "Made with AI · Gemini TTS, FLUX, Wan 2.2, ACE-Step",
+    "duration_s": 4
+  }
+}

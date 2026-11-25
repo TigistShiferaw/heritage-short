@@ -17,3 +17,8 @@
 - **Cause:** Find-and-replace of requests.post also changed the line inside post_with_retry, so it recursed.
 - **Fix:** Restored requests.post inside the helper; it is now the only place requests.post is used.
 - **Lesson:** Review find-and-replace results instead of replacing blindly.
+## F6 – Gemini 3.8 Flash TTS daily quota exhausted (25 Nov, about 09:00)
+- **What broke:** After about 12 TTS calls, every 3.8 TTS request returned 429 "exceeded your current quota", even after waiting.
+- **What I tried:** Retries with backoff (failed), then waiting a minute (failed). The pattern suggests a daily cap, not per-minute.
+- **Workaround:** The fallback to gemini-2.5-flash-preview-tts produced s09. The pipeline marks it as a fallback, so a rerun after the quota resets (about 11:00 EAT) regenerates only s09.
+- **Lesson:** Budget TTS calls. Don't regenerate narration casually, because each line costs a scarce daily request. Caching matters more here than anywhere else.
