@@ -57,3 +57,10 @@
 - **Result:** Repaired all cached narration clips and rebuilt both final aspect ratios; the storyboard check and FFmpeg decode checks passed.
 - **Lesson:** Verify the actual encoding/container of model audio responses before wrapping or mixing them.
 
+## F10 – Cloudflare free allocation blocked prop-reference rerender (26 Nov 2026)
+- **What broke:** The request to generate a dedicated jebena reference returned HTTP 429 after the daily free neuron allocation was exhausted.
+- **What I tried:** Retried with exponential backoff; the quota error persisted. Used a crop of the existing s10 keyframe as a local reference instead, so no additional API request is needed to create the reference asset.
+- **Status:** The storyboard and keyframe stage now pass that reference to all six jebena shots, but the final keyframes have not yet been rerendered with it.
+- **Next step:** Rerun `python pipeline\\run_all.py` after the quota resets and review the contact sheet.
+- **Lesson:** Backoff does not solve a daily allocation limit; keep a local reference-based fallback and resume when quota resets.
+

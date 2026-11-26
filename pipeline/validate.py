@@ -1,7 +1,7 @@
 """Validate storyboard.json against the JSON Schema and check film length.
 Run before every pipeline stage:  python pipeline/validate.py
 """
-import json, sys
+import json, os, sys
 from jsonschema import Draft202012Validator
 
 MIN_S, MAX_S = 60, 90
@@ -22,10 +22,18 @@ def load_storyboard(path="storyboard.json", schema_path="schema/storyboard.schem
     if len(ids) != len(set(ids)):
         sys.exit("ERROR: duplicate shot ids")
     known = {c["id"] for c in sb["characters"]}
+    known_props = {p["id"] for p in sb.get("props", [])}
+    for prop in sb.get("props", []):
+        reference_image = prop.get("reference_image")
+        if reference_image and not os.path.isfile(reference_image):
+            sys.exit(f"ERROR: prop '{prop['id']}' reference image not found: {reference_image}")
     for s in sb["shots"]:
         for c in s["characters"]:
             if c not in known:
                 sys.exit(f"ERROR: shot {s['id']} uses unknown character '{c}'")
+        for prop in s.get("props", []):
+            if prop not in known_props:
+                sys.exit(f"ERROR: shot {s['id']} uses unknown prop '{prop}'")
 
     total = sum(s["duration_s"] for s in sb["shots"]) + sb["end_card"]["duration_s"]
     if not MIN_S <= total <= MAX_S:

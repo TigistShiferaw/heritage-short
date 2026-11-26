@@ -12,6 +12,7 @@ Built for the *AI-Content Generation: The Heritage Short* challenge (deadline 26
 | `outputs/final/three_cups_9x16.mp4` | 1080×1920 film for TikTok and Instagram Reels |
 | `outputs/final/subtitles_en.srt`, `subtitles_am.srt` | Soft subtitles (English, Amharic) |
 | `outputs/keyframes/contact_sheet.jpg` | All 10 keyframes on one page |
+| `outputs/props/jebena_ref.png` | Shared local prop reference for a pending consistent-jebena rerender |
 | `outputs/radio_cut.mp4` | Phase 1 checkpoint: narration over a black screen |
 | `outputs/rough_cut.mp4` | Phase 2 checkpoint: Ken Burns clips with narration, no subtitles |
 | `runs.jsonl` | One line per model or FFmpeg call: stage, model, time, success, notes |
@@ -21,7 +22,7 @@ Built for the *AI-Content Generation: The Heritage Short* challenge (deadline 26
 ```
 storyboard.json ──validate.py──┬─ narration.py ─────── Gemini TTS ──────────► outputs/narration/*.wav
                                ├─ radio_cut.py ─────── FFmpeg ──────────────► outputs/radio_cut.mp4
-                               ├─ keyframes.py ─────── Cloudflare FLUX.2 ───► outputs/characters, outputs/keyframes
+                               ├─ keyframes.py ─────── Cloudflare FLUX.2 ───► outputs/characters, outputs/props, outputs/keyframes
                                ├─ motion_kenburns.py ─ FFmpeg pan/zoom ─────► outputs/motion/*.mp4
                                ├─ (Kaggle) Wan 2.2 ─── optional hero shots ─► outputs/wan/*.mp4
                                ├─ (Kaggle) ACE-Step ── score ───────────────► outputs/music/score.wav
@@ -58,11 +59,21 @@ Model stages cache their outputs by a hash of their inputs, so rerunning after a
 
 ## Run the film
 
+After setup and adding the provider credentials to `.env`, run the complete pipeline from the project root:
+
+```powershell
+python pipeline\run_all.py
+```
+
+This validates the storyboard, creates narration and character/keyframe assets, renders motion clips, and assembles both final formats. It reuses cached outputs where possible. If no score is present at `outputs/music/score.wav`, assembly uses the placeholder drone; that is not an original score and must be replaced for the challenge submission.
+
+To run stages individually:
+
 ```powershell
 python pipeline\validate.py              # storyboard passes the schema, 60-90 s
 python pipeline\narration.py             # Amharic narration, one WAV per shot
 python pipeline\radio_cut.py             # optional: narration over black, for user testing
-python pipeline\keyframes.py --refs-only # character references; review them first
+python pipeline\keyframes.py --refs-only # character/prop references; review them first
 python pipeline\keyframes.py             # 10 keyframes + contact sheet
 python pipeline\motion_kenburns.py       # pan/zoom clip per shot
 python pipeline\assemble.py              # both final films, subtitles, end card, ducked score
@@ -89,4 +100,12 @@ To change one shot: edit it in `storyboard.json` (or add `"seed": 2001`), then r
 
 ## AI disclosure
 
-The pictures, motion, narration voice and music are AI-generated. The film ends on a card that says so and names the models. No real person's face or voice was used. See [ETHICS.md](ETHICS.md).
+The images and narration voice are AI-generated. Motion uses FFmpeg's Ken Burns pan/zoom, and the soundtrack is a placeholder drone rather than an original score. The film ends on a card naming Gemini TTS and FLUX.2. No real person's face or voice was used. See [ETHICS.md](ETHICS.md).
+
+## Remaining before submission
+
+- Replace the placeholder drone with an original score.
+- Rerender the six revised jebena shots with the shared prop reference when Cloudflare capacity is available; current final exports do not use that reference.
+- Complete both audience tests with at least three participants each and record their actual feedback and counts.
+- Finish the report with the creator's own reflections, and confirm whether the walkthrough and public post are complete.
+- Verify actual provider charges in the dashboards and finish any remaining model-specific cost/licence checks.

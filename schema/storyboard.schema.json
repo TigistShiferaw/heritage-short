@@ -24,6 +24,17 @@
         }
       }
     },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object", "required": ["id", "description"], "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "description": { "type": "string", "minLength": 10 },
+          "reference_image": { "type": "string" }
+        }
+      }
+    },
     "music": {
       "type": "object", "required": ["prompt", "bpm"], "additionalProperties": false,
       "properties": {
@@ -45,6 +56,7 @@
           "image_prompt": { "type": "string", "minLength": 10 },
           "motion_prompt": { "type": "string", "minLength": 5 },
           "characters": { "type": "array", "items": { "type": "string" } },
+          "props": { "type": "array", "items": { "type": "string" } },
           "seed": { "type": "integer" },
           "narration": {
             "type": "object", "required": ["text", "english"], "additionalProperties": false,

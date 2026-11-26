@@ -17,6 +17,13 @@
       "description": "Two Ethiopian children, a girl about 8 in a simple yellow dress and a boy about 6 in a white shirt, playful and curious."
     }
   ],
+  "props": [
+    {
+      "id": "jebena",
+      "description": "one traditional Ethiopian coffee pot made from matte-black handmade clay, with the same round bulbous body, narrow neck, short side spout and small loop handle in every shot",
+      "reference_image": "outputs/props/jebena_ref.png"
+    }
+  ],
   "music": {
     "prompt": "slow, warm Ethiopian instrumental, krar and masinko with soft kebero, tizita mode, nostalgic and tender, gentle build then calm resolution",
     "bpm": 72,
@@ -44,27 +51,30 @@
     {
       "id": "s03", "duration_s": 8,
       "reason": "Shows coffee as what gathers people, and names the first cup so the three-cup structure is clear.",
-      "image_prompt": "young grandmother pouring coffee from a black clay jebena into small white cups on a wooden tray, neighbours sitting around her on low stools, smoke from frankincense",
+      "image_prompt": "young grandmother pouring coffee from the same traditional Ethiopian jebena: a matte-black handmade clay pot with a round bulbous body, narrow neck, short side spout and small loop handle; into small white cups on a wooden tray, neighbours sitting around her on low stools, smoke from frankincense; no metal or modern coffee pot",
       "motion_prompt": "slow pull-back revealing the neighbours, coffee pouring in a thin stream",
       "characters": ["grandmother"],
+      "props": ["jebena"],
       "narration": { "text": "የቡናው ሽታ ጎረቤቶችን ሁሉ ይጠራ ነበር። ይህ አቦል ነው፣ የመጀመሪያው ስኒ።", "english": "The smell of coffee called all the neighbours. This is abol, the first cup." },
       "music_cue": "build"
     },
     {
       "id": "s04", "duration_s": 7,
       "reason": "Moves time forward; same jebena, now with her own children, linking generations through one object.",
-      "image_prompt": "middle-aged grandmother, about 40, hair under a headscarf, sitting by the same black jebena while two children lean on her shoulders, warm evening light",
+      "image_prompt": "middle-aged grandmother, about 40, hair under a headscarf, sitting beside the same matte-black traditional Ethiopian clay jebena with a round bulbous body, narrow neck, short side spout and small loop handle, while two children lean on her shoulders, warm evening light; no metal or modern coffee pot",
       "motion_prompt": "slow push-in, children shifting and smiling",
       "characters": ["grandmother", "children"],
+      "props": ["jebena"],
       "narration": { "text": "ከዚያም ልጆቿ መጡ። በዚያው ጀበና ዙሪያ አደጉ።", "english": "Then her children came. They grew up around the same jebena." },
       "music_cue": "warm"
     },
     {
       "id": "s05", "duration_s": 8,
       "reason": "The second cup is the joyful peak; the audience should smile before the loss that follows.",
-      "image_prompt": "children laughing and eating popcorn from a woven basket, middle-aged grandmother pouring the second round of coffee, frankincense smoke, lively warm home",
+      "image_prompt": "children laughing and eating popcorn from a woven basket, middle-aged grandmother pouring the second round from the same matte-black traditional Ethiopian clay jebena with a round bulbous body, narrow neck, short side spout and small loop handle, frankincense smoke, lively warm home; no metal or modern coffee pot",
       "motion_prompt": "playful handheld feel, popcorn tossed, laughter",
       "characters": ["grandmother", "children"],
+      "props": ["jebena"],
       "narration": { "text": "ቶና፣ ሁለተኛው ስኒ፣ የሳቅና የወሬ ጊዜ ነበር።", "english": "Tona, the second cup, was a time of laughter and stories." },
       "music_cue": "warm"
     },
@@ -89,33 +99,36 @@
     {
       "id": "s08", "duration_s": 8,
       "reason": "Bridges old and new: technology brings the family back into the ritual, the hopeful turn.",
-      "image_prompt": "old grandmother smiling at a smartphone propped against the jebena, screen glowing with faces of grandchildren, coffee cups on the tray, warm light returning",
+      "image_prompt": "old grandmother smiling at a smartphone propped beside the same matte-black traditional Ethiopian clay jebena with a round bulbous body, narrow neck, short side spout and small loop handle, screen glowing with faces of grandchildren, coffee cups on the tray, warm light returning; no metal or modern coffee pot",
       "motion_prompt": "gentle orbit around her, screen light flickering on her face",
       "characters": ["grandmother"],
+      "props": ["jebena"],
       "narration": { "text": "ዛሬ የልጅ ልጆቿ በስልክ ይቀላቀሏታል።", "english": "Today her grandchildren join her by phone." },
       "music_cue": "swell"
     },
     {
       "id": "s09", "duration_s": 8,
       "reason": "The third cup, the blessing, is the emotional climax and completes the three-cup structure.",
-      "image_prompt": "old grandmother raising her hands in blessing over the third cup of coffee, eyes closed, frankincense smoke glowing in golden light",
+      "image_prompt": "old grandmother raising her hands in blessing over the third cup of coffee, eyes closed, the same matte-black traditional Ethiopian clay jebena with a round bulbous body, narrow neck, short side spout and small loop handle visible beside the cups, frankincense smoke glowing in golden light; no metal or modern coffee pot",
       "motion_prompt": "slow push-in on her face and hands, smoke drifting upward",
       "characters": ["grandmother"],
+      "props": ["jebena"],
       "narration": { "text": "በረካ፣ ሦስተኛው ስኒ፣ የምርቃት ስኒ ነው።", "english": "Bereka, the third cup, is the cup of blessing." },
       "music_cue": "swell"
     },
     {
       "id": "s10", "duration_s": 9,
       "reason": "Ends on the motif, a full cup waiting, so viewers leave wanting to call their own grandmother.",
-      "image_prompt": "close-up of one full white coffee cup on a wooden tray beside the black jebena, thin steam rising, empty low stool beside it, warm golden light",
+      "image_prompt": "close-up of one full white coffee cup on a wooden tray beside the same matte-black traditional Ethiopian clay jebena with a round bulbous body, narrow neck, short side spout and small loop handle, thin steam rising, empty low stool beside it, warm golden light; no metal or modern coffee pot",
       "motion_prompt": "static frame, steam rising slowly, light gently fading",
       "characters": [],
+      "props": ["jebena"],
       "narration": { "text": "ሩቅ ብንሆንም፣ ስኒዋ ሁልጊዜ ይጠብቀናል።", "english": "Even when we are far away, her cup is always waiting for us." },
       "music_cue": "resolve"
     }
   ],
   "end_card": {
-    "text": "Made with AI · Gemini TTS, FLUX, Wan 2.2, ACE-Step",
+    "text": "Made with AI · Gemini TTS, FLUX.2",
     "duration_s": 4
   }
 }

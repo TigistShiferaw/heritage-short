@@ -25,6 +25,7 @@ W, H = 1360, 768        # 16:9 keyframe; the 9:16 version is a centre crop at as
 REF_SIZE = 1024         # generated reference size
 REF_INPUT = 496         # FLUX.2 on Workers AI needs reference inputs under 512x512
 REF_DIR = "outputs/characters"
+PROP_DIR = "outputs/props"
 KF_DIR = "outputs/keyframes"
 
 # Which look to use for each identity anchor. Shot prompts still set the age per shot.
@@ -79,11 +80,39 @@ def make_reference(char, sb, seed):
     return small
 
 
+def make_prop_reference(prop, sb, seed):
+    """Make an isolated prop image to anchor its appearance across shots."""
+    out = os.path.join(PROP_DIR, f"{prop['id']}.png")
+    small = os.path.join(PROP_DIR, f"{prop['id']}_ref.png")
+    prompt = (f"Object reference illustration of one {prop['description']}. "
+              f"Show the complete object centered in a clear three-quarter view, "
+              f"on a plain warm beige background, with no people, hands, cups or text. "
+              f"Style: {sb['style']['prompt']}. Avoid: {sb['style'].get('negative', '')}")
+    h = input_hash({"prompt": prompt, "seed": seed, "model": MODEL, "steps": STEPS, "size": REF_SIZE})
+    if is_cached(out, h) and os.path.exists(small):
+        print(f"prop {prop['id']}: cached")
+        return small
+    t = time.time()
+    img, err = flux(prompt, seed, REF_SIZE, REF_SIZE)
+    log("keyframes-prop", MODEL, {"steps": STEPS, "size": REF_SIZE}, t, img is not None,
+        shot=prop["id"], seed=seed, note=err or "object reference")
+    if img is None:
+        sys.exit(f"Object reference for {prop['id']} failed. See runs.jsonl.")
+    img.save(out)
+    img.resize((REF_INPUT, REF_INPUT), Image.LANCZOS).save(small)
+    mark_cached(out, h)
+    return small
+
+
 def keyframe_prompt(shot, sb):
     parts = [f"Style: {sb['style']['prompt']}.", f"Scene: {shot['image_prompt']}."]
     for i, c in enumerate(shot["characters"]):
         parts.append(f"The {c} must look like the reference in image {i}: same face, skin tone and "
                      f"clothing details, but at the age and pose described in the scene.")
+    for i, prop in enumerate(shot.get("props", [])):
+        ref_index = len(shot["characters"]) + i
+        parts.append(f"The {prop} must match object reference image {ref_index} in silhouette, "
+                     f"shape, proportions, material and color; do not redesign it.")
     parts.append("Keep the main subject inside the centre third of the frame; the film is also cropped to vertical.")
     if sb["style"].get("negative"):
         parts.append(f"Avoid: {sb['style']['negative']}.")
@@ -118,6 +147,7 @@ def main():
 
     sb, _ = load_storyboard()
     os.makedirs(REF_DIR, exist_ok=True)
+    os.makedirs(PROP_DIR, exist_ok=True)
     os.makedirs(KF_DIR, exist_ok=True)
 
     # 1. Character references (a hand-made reference_image in storyboard.json wins).
@@ -127,8 +157,14 @@ def main():
             refs[char["id"]] = char["reference_image"]
         else:
             refs[char["id"]] = make_reference(char, sb, BASE_SEED + 900 + i)
+    prop_refs = {}
+    for i, prop in enumerate(sb.get("props", [])):
+        if prop.get("reference_image"):
+            prop_refs[prop["id"]] = prop["reference_image"]
+        else:
+            prop_refs[prop["id"]] = make_prop_reference(prop, sb, BASE_SEED + 950 + i)
     if args.refs_only:
-        print(f"References ready in {REF_DIR}/. Open them; if you dislike one, change "
+        print(f"References ready in {REF_DIR}/ and {PROP_DIR}/. Open them; if you dislike one, change "
               f"KEYFRAME_BASE_SEED in .env or the character description, then rerun.")
         return
 
@@ -140,7 +176,8 @@ def main():
             continue
         out = os.path.join(KF_DIR, f"{shot['id']}.png")
         seed = shot.get("seed", BASE_SEED + idx)
-        shot_refs = [refs[c] for c in shot["characters"]]
+        shot_props = [prop_refs[p] for p in shot.get("props", [])]
+        shot_refs = [refs[c] for c in shot["characters"]] + shot_props
         prompt = keyframe_prompt(shot, sb)
         h = input_hash({"prompt": prompt, "seed": seed, "model": MODEL, "steps": STEPS,
                         "size": [W, H], "refs": [file_hash(p) for p in shot_refs]})

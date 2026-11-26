@@ -1,7 +1,7 @@
 # Architecture
 
 ## One contract: `storyboard.json`
-Every stage reads the same file, and nothing else describes the film. It holds the title, style prompt, characters, music brief, the 8–12 shots and the end card. Each shot has an id, duration, the reason it exists, an image prompt, a motion prompt, its characters, the Amharic line with its English subtitle, and a music cue. Optional: `seed` (keyframe seed).
+Every stage reads the same file, and nothing else describes the film. It holds the title, style prompt, characters, optional prop references, music brief, the 8–12 shots and the end card. Each shot has an id, duration, the reason it exists, an image prompt, a motion prompt, its characters and props, the Amharic line with its English subtitle, and a music cue. Optional: `seed` (keyframe seed).
 
 `pipeline/validate.py` checks it against `schema/storyboard.schema.json`: 8–12 shots, a reason per shot, Amharic text plus English subtitle, an end card containing "AI", and a total of 60–90 s. Run it before every stage.
 
@@ -9,6 +9,7 @@ Every stage reads the same file, and nothing else describes the film. It holds t
 
 | Stage | Script | Model / tool | Output | Cache key |
 |---|---|---|---|---|
+| Full local pipeline | `pipeline/run_all.py` | Python subprocess runner | `outputs/final/*` | stage-specific |
 | Smoke test | `smoke_test.py` | Gemini text, Gemini TTS, Cloudflare FLUX.1 schnell | `runs.jsonl` lines | none |
 | Narration | `narration.py` | Gemini 3.8 Flash TTS (fallback 2.5 preview TTS), voice Kore | `outputs/narration/<shot>.wav` | text + voice + model actually used |
 | Radio cut | `radio_cut.py` | FFmpeg | `outputs/radio_cut.mp4` | none (seconds to run) |
@@ -28,7 +29,7 @@ Every stage reads the same file, and nothing else describes the film. It holds t
 - **FFmpeg:** found through the `FFMPEG` variable, then PATH, then `imageio-ffmpeg` (F7).
 
 ## Keyframes
-FLUX.2 [dev] on Cloudflare takes multipart form data with `input_image_0..N`, each under 512×512, so references are generated at 1024×1024 and sent as 496 px copies. Shot seed = `shot.seed` if set, else `KEYFRAME_BASE_SEED + shot index`; reference seed = base + 900 + index. Changing one shot's seed or prompt regenerates only that shot.
+FLUX.2 [dev] on Cloudflare takes multipart form data with `input_image_0..N`, each under 512×512, so generated character and prop references are made at 1024×1024 and sent as 496 px copies; a supplied `reference_image` can be used instead. A prop listed on a shot is passed as an image reference so its silhouette and material remain consistent. Shot seed = `shot.seed` if set, else `KEYFRAME_BASE_SEED + shot index`; character reference seed = base + 900 + index; prop reference seed = base + 950 + index. Changing one shot's seed or prompt regenerates only that shot.
 
 ## Timing and audio (`assemble.py`)
 Shot start times are the running sum of `duration_s`. Gemini TTS `inlineData` can contain a WAV file (24 kHz, 16-bit, mono), not raw PCM. `narration.py` extracts the PCM samples before writing the canonical WAV and repairs older cached clips in place. Each narration line starts 0.5 s into its shot, fades in and out over 20 ms to avoid clicks, and is cut if it would overrun the shot (with a warning). Subtitles show from line start to line end plus 0.4 s (at least 2 s), never past the shot. The music bed is lowered by `music.duck_db` (−14 dB) whenever narration plays, using a volume envelope with 0.25 s ramps: an exact, documented duck instead of a compressor's variable one. The mix is normalised to −14 LUFS, true peak −1.5 dB.

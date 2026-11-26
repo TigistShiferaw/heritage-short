@@ -12,7 +12,7 @@
 - **Motif:** The black clay jebena and the rising smoke appear in every act and tie the generations together.
 - **Narrator:** A grandchild, speaking in Amharic, looking back.
 - **Characters:** Illustrated, generic characters, not modelled on any real person's face or voice (see ETHICS.md).
-- **Real family detail:** [One true detail from your family, e.g. a phrase your grandmother says during the ceremony, and which shot it appears in.]
+- **Real family detail:** Permission to include a true family detail was reported; the detail and the shot where it appears still need to be recorded. The current storyboard remains generic.
 
 ## Shot list
 | Shot | Seconds | Cup / act | English line |
@@ -38,13 +38,14 @@ Each shot's reason is stored in `storyboard.json` under `reason`, so the design 
 - **Style:** Warm hand-painted gouache, soft film grain, amber firelight and morning light, terracotta, ochre and deep green. Chosen because it feels like a family storybook, and because an illustrated look forgives small model errors better than photorealism.
 - **Consistency:** One reference image per character (`outputs/characters/`), passed to FLUX.2 [dev] as an input image in every shot that character appears in. Fixed seeds per shot.
 - **Cultural details checked in every keyframe:** the black clay jebena, small handleless sini cups, green grass on the floor, frankincense smoke, the white netela with a tilet border.
-- **Motion:** A slow Ken Burns move per shot (push in, pan left, pull out, pan right, in rotation) so the paintings feel alive without the cost and artefacts of video generation. Optional Wan 2.2 clips replace the shots where something must really move (smoke, steam).
+- **Motion:** The current cut uses a slow Ken Burns move per shot (push in, pan left, pull out, pan right, in rotation) so the paintings feel alive without the cost and artefacts of video generation. Wan 2.2 was not used in this cut.
 - **Two formats from one keyframe:** The 16:9 film uses the full frame. The 9:16 film shows the same full frame in the middle of a blurred, darkened copy of itself, instead of a centre crop that would keep only a third of each painting (see EXPERIMENTS.md E9).
 - **Known compromise:** One grandmother reference serves all three ages, so she may look older than intended in s02–s03 (E5).
+- **Audience note:** In the 26 Nov near-final review, one viewer said the coffee pot looked modern and changed between scenes. The six jebena prompts now specify the traditional matte-black clay shape, and a shared reference crop from s10 is ready at `outputs/props/jebena_ref.png`. Regenerating the six shots with that image reference is pending because the Cloudflare daily free allocation was exhausted.
 
 ## Sound design
 - **Narration:** Gemini TTS, prebuilt voice **Kore**, Amharic. TTS WAV containers are decoded to PCM before use; each line starts 0.5 s after its shot begins and fades in/out over 20 ms to prevent clicks.
-- **Score:** Krar and masinko with soft kebero, tizita mode, 72 bpm, gentle build then calm resolution. Music cues per shot: intro, build, warm, quiet, swell, resolve. [If ACE-Step was not used: placeholder drone, and why.]
+- **Score:** The storyboard brief is for krar and masinko with soft kebero in tizita mode, 72 bpm. The current final uses FFmpeg's quiet placeholder drone because no generated score is present at `outputs/music/score.wav`; the original-score requirement is still outstanding. Music cues in the storyboard are intro, build, warm, quiet, swell and resolve.
 - **Mix:** Music is lowered by 14 dB under the voice with 0.25 s ramps, fades in over 1.5 s and out over the last 3 s. Final loudness −14 LUFS for social platforms.
 - **Subtitles:** English, white bold with a dark outline, burned in. On 9:16 they sit higher so the TikTok/Reels buttons do not cover them.
 - **End card:** 4 s, Amharic title and the AI disclosure, fades in.
@@ -56,13 +57,16 @@ Each shot's reason is stored in `storyboard.json` under `reason`, so the design 
 4. **Final** (`outputs/final/`): subtitles, end card, score, both formats.
 
 ## User test 1: radio cut
-- **Date / format:** [e.g. 25 Nov, shared on Telegram]
-- **People (at least 3 from the audience):** [P1 – who, P2 – who, P3 – who]
-- **What they said:** [quotes or notes]
-- **What I changed because of it:** [specific edits, or "nothing, because ..."]
+- **Date / format:** 26 Nov 2026, 14:00 EAT; sharing format not recorded.
+- **People:** One feedback source is documented; additional family reactions were mentioned but the participant count was not recorded. This does not yet document the required three participants.
+- **What they said:** The narration had static noises at every transition.
+- **What I changed because of it:** Found and fixed the TTS WAV-container parsing bug, repaired the cached narration files, and rebuilt both final exports. The user reports that the static is now fixed.
+- **Other reaction:** Family members reportedly said it was a good start and promised to suggest ideas; names, count and exact date were not recorded.
 
 ## User test 2: rough or final cut
-- **Date / format:**
-- **People:**
-- **What they said:**
-- **What I changed:**
+- **Date / format:** 26 Nov 2026, 13:48 EAT; format not recorded.
+- **People:** One audience member (name withheld here); the required three participants are not yet documented.
+- **What they said:** They liked the story and attention to detail, but said the coffee pot looked modern and different in each scene, and reminded them of their grandmother.
+- **What I changed:** No visual changes were made before this review was recorded; correcting the jebena consistency remains outstanding.
+
+The neighbor's positive comment was about the story; no specific Amharic pronunciation or subtitle review has been recorded.
