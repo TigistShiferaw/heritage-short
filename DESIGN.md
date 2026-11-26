@@ -43,7 +43,7 @@ Each shot's reason is stored in `storyboard.json` under `reason`, so the design 
 - **Known compromise:** One grandmother reference serves all three ages, so she may look older than intended in s02–s03 (E5).
 
 ## Sound design
-- **Narration:** Gemini TTS, prebuilt voice **Kore**, Amharic. Each line starts 0.5 s after its shot begins.
+- **Narration:** Gemini TTS, prebuilt voice **Kore**, Amharic. TTS WAV containers are decoded to PCM before use; each line starts 0.5 s after its shot begins and fades in/out over 20 ms to prevent clicks.
 - **Score:** Krar and masinko with soft kebero, tizita mode, 72 bpm, gentle build then calm resolution. Music cues per shot: intro, build, warm, quiet, swell, resolve. [If ACE-Step was not used: placeholder drone, and why.]
 - **Mix:** Music is lowered by 14 dB under the voice with 0.25 s ramps, fades in over 1.5 s and out over the last 3 s. Final loudness −14 LUFS for social platforms.
 - **Subtitles:** English, white bold with a dark outline, burned in. On 9:16 they sit higher so the TikTok/Reels buttons do not cover them.

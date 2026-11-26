@@ -2,7 +2,7 @@
 Only shots whose narration text, voice or model changed are regenerated.
 Run:  python pipeline/narration.py
 """
-import os, sys, time, base64, wave
+import io, os, sys, time, base64, wave
 from validate import load_storyboard
 from common import log, post_with_retry, input_hash, is_cached, mark_cached, models_from_env
 
@@ -18,10 +18,34 @@ def tts(text, voice, model):
     return post_with_retry(url, json=body, timeout=120)
 
 
-def save_wav(path, pcm):
+def decode_pcm(audio):
+    if audio.startswith(b"RIFF"):
+        if audio[8:12] != b"WAVE":
+            raise ValueError("TTS audio has a RIFF header but is not a WAV file")
+        with wave.open(io.BytesIO(audio), "rb") as source:
+            if (source.getnchannels(), source.getsampwidth(), source.getframerate()) != (1, 2, 24000):
+                raise ValueError("TTS WAV must be 24 kHz, 16-bit, mono PCM")
+            audio = source.readframes(source.getnframes())
+    if not audio or len(audio) % 2:
+        raise ValueError("TTS PCM must contain a non-empty, even number of bytes")
+    return audio
+
+
+def save_wav(path, audio):
+    pcm = decode_pcm(audio)
     with wave.open(path, "wb") as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(24000); w.writeframes(pcm)
     return len(pcm) / (2 * 24000)  # seconds
+
+
+def repair_cached_wav(path):
+    with wave.open(path, "rb") as source:
+        if (source.getnchannels(), source.getsampwidth(), source.getframerate()) != (1, 2, 24000):
+            raise ValueError(f"{path} must be 24 kHz, 16-bit, mono PCM")
+        audio = source.readframes(source.getnframes())
+    pcm = decode_pcm(audio)
+    if pcm != audio:
+        save_wav(path, pcm)
 
 
 def main():
@@ -40,6 +64,7 @@ def main():
             continue
         h = input_hash({"text": text, "voice": voice, "model": models[0]})
         if is_cached(out, h):
+            repair_cached_wav(out)
             print(f"{shot['id']}: cached")
             continue
 

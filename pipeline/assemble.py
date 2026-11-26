@@ -23,6 +23,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 FPS = 25
 LEAD_S = 0.5            # breath before each narration line (same as the radio cut)
+NARRATION_FADE_S = 0.02 # prevent clicks at the start and end of each voice clip
 DUCK_RAMP_S = 0.25      # how fast the music dips and recovers
 MUSIC_GAIN_DB = float(os.getenv("MUSIC_GAIN_DB", "-6"))
 OUT_DIR = os.path.join("outputs", "final")
@@ -217,8 +218,12 @@ def build_mix(sb, rows, total, music_override):
         if r["wav"]:
             i = len(labels)
             args += ["-i", r["wav"]]
+            clip_duration = r["speech_end"] - r["speech_start"]
+            fade_s = min(NARRATION_FADE_S, clip_duration / 2)
             filters.append(f"[{i}:a]aresample=48000,aformat=channel_layouts=stereo,"
-                           f"atrim=0:{r['speech_end'] - r['speech_start']:.3f},"
+                           f"atrim=0:{clip_duration:.3f},"
+                           f"afade=t=in:d={fade_s:.3f},"
+                           f"afade=t=out:st={clip_duration - fade_s:.3f}:d={fade_s:.3f},"
                            f"adelay={int(round(r['speech_start'] * 1000))}:all=1[n{i}]")
             labels.append(f"[n{i}]")
     m = len(labels)

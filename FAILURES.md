@@ -50,3 +50,10 @@
 - **Fix:** Added `setsar=1` after every scale, crop and overlay in the 9:16 branch. Both formats then rendered at exactly 80.0 s.
 - **Lesson:** Test every output format, not just the first; normalise SAR before `concat`.
 
+## F9 – Scratching noise at narration starts (26 Nov 2026)
+- **What broke:** The final mix had a short scratch at the start of every narration clip.
+- **Cause:** Gemini TTS `inlineData` contained a WAV container, but `narration.py` treated the container bytes as raw PCM and wrote them into another WAV. The embedded RIFF/WAVE header and trailing metadata were therefore played as audio.
+- **Fix:** Decode the returned WAV and write only its 24 kHz, 16-bit, mono PCM samples. Detect and repair affected cached clips in place, without regenerating them. Keep 20 ms fades at clip edges to prevent boundary clicks.
+- **Result:** Repaired all cached narration clips and rebuilt both final aspect ratios; the storyboard check and FFmpeg decode checks passed.
+- **Lesson:** Verify the actual encoding/container of model audio responses before wrapping or mixing them.
+
